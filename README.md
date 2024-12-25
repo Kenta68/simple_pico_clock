@@ -55,7 +55,7 @@ To set time using a push bottn configured at `buttonpin`, first press and hold t
 >2s press-> next
 Press to start..
 ```
-This means pressing the button shortly (< 1 sec) increments whatever entry you are setting by 1, and pressing and holding the button for more than 2 sec confirms the entry and goes to the next one. From this description, short pressing the button brings the day setting `Date: 2`. Shortly pressing the button increments to `Date: 3`. Shortly pressing the button at `Date: 31` circles back to `Days: 1`. Once date is set, pressing and holding the botton for more than two seconds proceeds to month setting, followed by year, weekday, hour, and minute.
+This means pressing the button shortly (< 1 sec) increments whatever entry you are setting by 1, and pressing and holding the button for more than 2 sec confirms the entry and goes to the next one. From this description, short pressing the button brings the day setting `Date: 2`. Shortly pressing the button increments to `Date: 3`. Shortly pressing the button at `Date: 31` circles back to `Date: 1`. Once date is set, pressing and holding the botton for more than two seconds proceeds to month setting, followed by year, weekday, hour, and minute.
 
 >[!Tip]
 >Date and year settings can be decremented by pressing and holding the button for more than 1 second and less than 2 seconds. The same button event increases the minutes setting by 10.
