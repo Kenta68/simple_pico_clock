@@ -11,5 +11,6 @@ Scrpits for the clock are in `src`. `src/main.py` contains all processins to dis
 > ssd1306 is supposed to be included in [MicroPython's main repository](https://github.com/micropython/micropython/tree/master), but I'm having hard time finding it.
 
 ## Parameters in `src/main.py`
-```python:src.main.py [10-11]
+```python:src/main.py [10-11]
+
 ```
