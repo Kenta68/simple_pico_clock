@@ -62,7 +62,7 @@ This means pressing the button shortly (< 1 sec) increments whatever entry you a
 
 
 # Description of Code
-The code uses RP2040's [internal Real Time Clock (RTC)](https://docs.micropython.org/en/latest/library/machine.RTC.html), accessed by `machine.RTC()`. It is not that accurate, so if you want a really accurate clock, you might want an externall RTC.
+The code uses RP2040's [internal Real Time Clock (RTC)](https://docs.micropython.org/en/latest/library/machine.RTC.html), accessed by `machine.RTC()`. It is not that accurate, so if you want a really accurate clock, you might want an external RTC.
 
 SCLpin and SDApin are used to initialize the I<sup>2</sup>C instance `I2C(1,scl=Pin(SCLpin),sda=Pin(SDApin),freq=200000)`, which is used to initialize `SSD1306_I2C()` instance. 
 
