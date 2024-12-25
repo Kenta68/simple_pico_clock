@@ -60,8 +60,12 @@ This means pressing the button shortly (< 1 sec) increments whatever entry you a
 >[!Tip]
 >Date and year settings can be decremented by pressing and holding the button for more than 1 second and less than 2 seconds. The same button event increases the minutes setting by 10.
 
+Long pressing the button (> 1 sec) at the description display enters the secondary setting, including 24h/12h display, birthday setting, and enabling/disabling daylight saving/summer time auto-correct.
 
-# Description of Code
+# Making Custom Digits
+
+
+# Description of 'src/main.py' Processes
 The code uses RP2040's [internal Real Time Clock (RTC)](https://docs.micropython.org/en/latest/library/machine.RTC.html), accessed by `machine.RTC()`. It is not that accurate, so if you want a really accurate clock, you might want an external RTC.
 
 SCLpin and SDApin are used to initialize the I<sup>2</sup>C instance `I2C(1,scl=Pin(SCLpin),sda=Pin(SDApin),freq=200000)`, which is used to initialize `SSD1306_I2C()` instance. 
