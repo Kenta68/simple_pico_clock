@@ -11,14 +11,14 @@ SCLpin = 3 # I2C clock pin assignment
 SDApin = 2 # I2C data pin assignment
 
 timesetbutton = True # True if the pico board has a push button for setting time, otherwise false (if false, set time by editing the settime variable below)
-buttonpin = 18 # push button (for setting time) pin assignment
+buttonpin = 24 # push button (for setting time) pin assignment
 buttontype = False # True if the push button is pull down (normally 0), False if pull up (normally 1)
 
 settime = (2024,8,2,4,16,22,0,0) # Enter the time to be set here as a tuple (year,month,day,weekday(Monday=0),hour,minutes,second,sub-second)
 
 show24h = False # False to diaplay time only in 0:00 to 12:59 with AM/PM
 
-mybirthday = (7,23) # (month,date) of your birthday so that the clock can celebrate it
+mybirthday = (6,22) # (month,date) of your birthday so that the clock can celebrate it
 
 autodsave = True # True to enable auto-correcting for daylight saving time (auto-correction is not executed when the script starts)
 dsavestart = (3,6,2) # daylight saving time start date (month,weekday,weekday count from the beginning of month), for example, "second sunday in March" = (3,6,1)
@@ -195,94 +195,83 @@ while True:
             display.show()
             while True:
                 presstime = buttonevent(button)
-                if presstime > 0.001:
-                    break
+                if presstime > 0.001 and presstime < 1: # short press -> set time
 
-            # set day
-            display.fill(0) # erace the display
-            display.text("Date: "+str(newdatetime[2]),0,0) # display day
-            display.text("1 s press-> dec.",0,12)
-            display.show()
-            while True:
-                presstime = buttonevent(button)
-                if presstime > 0.001 and presstime < 1: # short button press -> increment day by 1
-                    newdatetime[2] = (newdatetime[2])%31+1
+                    # set day
                     display.fill(0) # erace the display
                     display.text("Date: "+str(newdatetime[2]),0,0) # display day
                     display.text("1 s press-> dec.",0,12)
                     display.show()
-                if presstime >= 1 and presstime < 2: # short button press -> increment day by 1
-                    if newdatetime[2] > 1:
-                        newdatetime[2] = (newdatetime[2]-1)%32
-                        display.fill(0) # erace the display
-                        display.text("Date: "+str(newdatetime[2]),0,0) # display day
-                        display.text("1 s press-> dec.",0,12)
-                        display.show()
-                elif presstime > 2: # long button press -> exit loop and go to month setting
-                    break
+                    while True:
+                        presstime = buttonevent(button)
+                        if presstime > 0.001 and presstime < 1: # short button press -> increment day by 1
+                            newdatetime[2] = (newdatetime[2])%31+1
+                            display.fill(0) # erace the display
+                            display.text("Date: "+str(newdatetime[2]),0,0) # display day
+                            display.text("1 s press-> dec.",0,12)
+                            display.show()
+                        if presstime >= 1 and presstime < 2: # short button press -> increment day by 1
+                            if newdatetime[2] > 1:
+                                newdatetime[2] = newdatetime[2]-1
+                                display.fill(0) # erace the display
+                                display.text("Date: "+str(newdatetime[2]),0,0) # display day
+                                display.text("1 s press-> dec.",0,12)
+                                display.show()
+                        elif presstime > 2: # long button press -> exit loop and go to month setting
+                            break
 
-            # set month
-            display.fill(0) # erace the display
-            display.text("Month: "+str(newdatetime[1]),0,0) # display month
-            display.show()
-            while True:
-                presstime = buttonevent(button)
-                if presstime > 0.001 and presstime < 1: # short button press -> increment month by 1
-                    newdatetime[1] = (newdatetime[1])%12+1
+                    # set month
                     display.fill(0) # erace the display
                     display.text("Month: "+str(newdatetime[1]),0,0) # display month
                     display.show()
-                elif presstime > 1: # long button press -> exit loop and go to year setting
-                    break
+                    while True:
+                        presstime = buttonevent(button)
+                        if presstime > 0.001 and presstime < 1: # short button press -> increment month by 1
+                            newdatetime[1] = (newdatetime[1])%12+1
+                            display.fill(0) # erace the display
+                            display.text("Month: "+str(newdatetime[1]),0,0) # display month
+                            display.show()
+                        elif presstime > 1: # long button press -> exit loop and go to year setting
+                            break
 
-            # set year
-            display.fill(0) # erace the display
-            display.text("Year: "+str(newdatetime[0]),0,0) # display year
-            display.text("1 s press-> dec.",0,12) # display year
-            display.show()
-            while True:
-                presstime = buttonevent(button)
-                if presstime > 0.001 and presstime < 1: # short button press -> increment year by 1
-                    newdatetime[0] = newdatetime[0]+1
+                    # set year
                     display.fill(0) # erace the display
                     display.text("Year: "+str(newdatetime[0]),0,0) # display year
-                    display.text("1 s press-> dec.",0,12)
+                    display.text("1 s press-> dec.",0,12) # display year
                     display.show()
-                elif presstime >= 1 and presstime < 2: # intermediate button press -> decreemnt year by 1
-                    newdatetime[0] = newdatetime[0]-1
+                    while True:
+                        presstime = buttonevent(button)
+                        if presstime > 0.001 and presstime < 1: # short button press -> increment year by 1
+                            newdatetime[0] = newdatetime[0]+1
+                            display.fill(0) # erace the display
+                            display.text("Year: "+str(newdatetime[0]),0,0) # display year
+                            display.text("1 s press-> dec.",0,12)
+                            display.show()
+                        elif presstime >= 1 and presstime < 2: # intermediate button press -> decreemnt year by 1
+                            if newdatetime[0] > 1:
+                                newdatetime[0] = newdatetime[0]-1
+                                display.fill(0) # erace the display
+                                display.text("Year: "+str(newdatetime[0]),0,0) # display year
+                                display.text("1 s press-> dec.",0,12)
+                                display.show()
+                        elif presstime > 2: # long button press -> go to weekday setting
+                            break
+
+                    # set weekday
                     display.fill(0) # erace the display
-                    display.text("Year: "+str(newdatetime[0]),0,0) # display year
-                    display.text("1 s press-> dec.",0,12)
+                    display.text("Weekday: "+weekdays[newdatetime[3]],0,12) # display weekday
                     display.show()
-                elif presstime > 2: # long button press -> go to weekday setting
-                    break
+                    while True:
+                        presstime = buttonevent(button)
+                        if presstime > 0.001 and presstime < 1: # short button press -> increment weekday by 1
+                            newdatetime[3] = (newdatetime[3]+1)%7
+                            display.fill(0) # erace weekday
+                            display.text("Weekday: "+weekdays[newdatetime[3]],0,12) # display month
+                            display.show()
+                        elif presstime > 1: # long button press -> go to hour setting
+                            break
 
-            # set weekday
-            display.fill(0) # erace the display
-            display.text("Weekday: "+weekdays[newdatetime[3]],0,12) # display weekday
-            display.show()
-            while True:
-                presstime = buttonevent(button)
-                if presstime > 0.001 and presstime < 1: # short button press -> increment weekday by 1
-                    newdatetime[3] = (newdatetime[3]+1)%7
-                    display.fill(0) # erace weekday
-                    display.text("Weekday: "+weekdays[newdatetime[3]],0,12) # display month
-                    display.show()
-                elif presstime > 1: # long button press -> go to hour setting
-                    break
-
-           # Set hour
-            display.fill(0) # erace the display
-            h2 = newdatetime[4]%10 # the second digit of hour
-            h1 = (newdatetime[4]-h2)//10 # the first digit of hour
-            display.blit(givedbuff(h1),WIDTH-dsize[1]*4-csize[1],0) # display hour digits
-            display.blit(givedbuff(h2),WIDTH-dsize[1]*3-csize[1],0)
-            display.blit(colon,WIDTH-dsize[1]*2-csize[1],0)
-            display.show()
-            while True:
-                presstime = buttonevent(button)
-                if presstime > 0.001 and presstime < 1: # short button press -> increment hour
-                    newdatetime[4] = (newdatetime[4]+1)%24 #  increment hour
+                   # Set hour
                     display.fill(0) # erace the display
                     h2 = newdatetime[4]%10 # the second digit of hour
                     h1 = (newdatetime[4]-h2)//10 # the first digit of hour
@@ -290,38 +279,115 @@ while True:
                     display.blit(givedbuff(h2),WIDTH-dsize[1]*3-csize[1],0)
                     display.blit(colon,WIDTH-dsize[1]*2-csize[1],0)
                     display.show()
-                elif presstime > 2: # long button press -> exit loop and go to minute setting
-                    break
+                    while True:
+                        presstime = buttonevent(button)
+                        if presstime > 0.001 and presstime < 1: # short button press -> increment hour
+                            newdatetime[4] = (newdatetime[4]+1)%24 #  increment hour
+                            display.fill(0) # erace the display
+                            h2 = newdatetime[4]%10 # the second digit of hour
+                            h1 = (newdatetime[4]-h2)//10 # the first digit of hour
+                            display.blit(givedbuff(h1),WIDTH-dsize[1]*4-csize[1],0) # display hour digits
+                            display.blit(givedbuff(h2),WIDTH-dsize[1]*3-csize[1],0)
+                            display.blit(colon,WIDTH-dsize[1]*2-csize[1],0)
+                            display.show()
+                        elif presstime > 2: # long button press -> exit loop and go to minute setting
+                            break
 
-            # set minutes
-            display.fill(0) # erace the display
-            display.blit(colon,WIDTH-dsize[1]*2-csize[1],0)
-            display.blit(givedbuff(m1),WIDTH-dsize[1]*2,0)
-            display.blit(givedbuff(m2),WIDTH-dsize[1],0)
-            display.show()
-            while True:
-                presstime = buttonevent(button)
-                if presstime > 0.001 and presstime < 1: # short button press -> increment minute by 1
-                    newdatetime[5] = (newdatetime[5]+1)%60 #  increment minute
+                    # set minutes
                     display.fill(0) # erace the display
-                    m2 = newdatetime[5]%10 # the second digit of minutes
-                    m1 = (newdatetime[5]-m2)//10 # the first digit of minutes
+                    display.blit(colon,WIDTH-dsize[1]*2-csize[1],0)
                     display.blit(givedbuff(m1),WIDTH-dsize[1]*2,0)
                     display.blit(givedbuff(m2),WIDTH-dsize[1],0)
-                    display.blit(colon,WIDTH-dsize[1]*2-csize[1],0)
                     display.show()
-                if presstime >= 1 and presstime < 2: # intermediate button press -> increment minute by 10
-                    newdatetime[5] = (newdatetime[5]+10)%60 #  increment minute
-                    display.fill(0) # erace the display
-                    m2 = newdatetime[5]%10 # the second digit of minutes
-                    m1 = (newdatetime[5]-m2)//10 # the first digit of minutes
-                    display.blit(givedbuff(m1),WIDTH-dsize[1]*2,0)
-                    display.blit(givedbuff(m2),WIDTH-dsize[1],0)
-                    display.blit(colon,WIDTH-dsize[1]*2-csize[1],0)
-                    display.show()
-                elif presstime > 2: # long button press -> exit setting
+                    while True:
+                        presstime = buttonevent(button)
+                        if presstime > 0.001 and presstime < 1: # short button press -> increment minute by 1
+                            newdatetime[5] = (newdatetime[5]+1)%60 #  increment minute
+                            display.fill(0) # erace the display
+                            m2 = newdatetime[5]%10 # the second digit of minutes
+                            m1 = (newdatetime[5]-m2)//10 # the first digit of minutes
+                            display.blit(givedbuff(m1),WIDTH-dsize[1]*2,0)
+                            display.blit(givedbuff(m2),WIDTH-dsize[1],0)
+                            display.blit(colon,WIDTH-dsize[1]*2-csize[1],0)
+                            display.show()
+                        if presstime >= 1 and presstime < 2: # intermediate button press -> increment minute by 10
+                            newdatetime[5] = (newdatetime[5]+10)%60 #  increment minute
+                            display.fill(0) # erace the display
+                            m2 = newdatetime[5]%10 # the second digit of minutes
+                            m1 = (newdatetime[5]-m2)//10 # the first digit of minutes
+                            display.blit(givedbuff(m1),WIDTH-dsize[1]*2,0)
+                            display.blit(givedbuff(m2),WIDTH-dsize[1],0)
+                            display.blit(colon,WIDTH-dsize[1]*2-csize[1],0)
+                            display.show()
+                        elif presstime > 2: # long button press -> exit setting
+                            break
+
+
+                    rtc.datetime((newdatetime[0],newdatetime[1],newdatetime[2],newdatetime[3],newdatetime[4],newdatetime[5],0,0)) # set new time
+                    datetime = (0,0,0,0,0,0) # (year,month,day,weekday(Monday=0),hour,minutes) reset datetime to show new time on display
                     break
 
 
-            rtc.datetime((newdatetime[0],newdatetime[1],newdatetime[2],newdatetime[3],newdatetime[4],newdatetime[5],0,0)) # set new time
-            datetime = (0,0,0,0,0,0) # (year,month,day,weekday(Monday=0),hour,minutes) reset datetime to show new time on display
+                if presstime > 1: # long press -> set other things
+
+                    # set 12h/24h
+                    display.fill(0) # erace the display
+                    display.text("Show 24h: "+str(show24h),0,0) # display show24h
+                    display.show()
+                    while True:
+                        presstime = buttonevent(button)
+                        if presstime > 0.001 and presstime < 1: # short button press -> change show24h
+                            show24h = not show24h
+                            display.fill(0) # erace the display
+                            display.text("Show 24h: "+str(show24h),0,0) # display show24h
+                            display.show()
+                        elif presstime > 1: # long button press -> break
+                            break
+
+                    # set birthday
+                    display.fill(0) # erace the display
+                    display.text("Birth month: "+str(mybirthday[0]),0,0) # display month of birthday
+                    display.show()
+                    while True:
+                        presstime = buttonevent(button)
+                        if presstime > 0.001 and presstime < 1: # short button press -> change show24h
+                            mybirthday = (mybirthday[0]%12+1,mybirthday[1])
+                            display.fill(0) # erace the display
+                            display.text("Birth month: "+str(mybirthday[0]),0,0) # display month of birthday
+                            display.show()
+                        elif presstime > 1: # long button press -> break
+                            break
+
+                    display.fill(0) # erace the display
+                    display.text("Birthday: "+str(mybirthday[0])+"/"+str(mybirthday[1]),0,0) # display month of birthday
+                    display.show()
+                    while True:
+                        presstime = buttonevent(button)
+                        if presstime > 0.001 and presstime < 1: # short button press -> change show24h
+                            mybirthday = (mybirthday[0],mybirthday[1]%31+1)
+                            display.fill(0) # erace the display
+                            display.text("Birthday: "+str(mybirthday[0])+"/"+str(mybirthday[1]),0,0) # display month of birthday
+                            display.show()
+                        elif presstime > 1: # long button press -> break
+                            break
+
+                    # enable/disable daylight saving time
+                    display.fill(0) # erace the display
+                    display.text("Correct daylight",0,0) #
+                    display.text("savint time:",0,12) #
+                    display.text(str(autodsave),0,24) #
+                    display.show()
+                    while True:
+                        presstime = buttonevent(button)
+                        if presstime > 0.001 and presstime < 1: # short button press -> change show24h
+                            autodsave = not autodsave
+                            display.fill(0) # erace the display
+                            display.text("Correct daylight",0,0) #
+                            display.text("savint time:",0,12) #
+                            display.text(str(autodsave),0,24) #
+                            display.show()
+                        elif presstime > 1: # long button press -> break
+                            break
+                            
+                    datetime = (0,0,0,0,0,0) # (year,month,day,weekday(Monday=0),hour,minutes) reset datetime to show new time on display
+                    break
