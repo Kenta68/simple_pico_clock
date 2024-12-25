@@ -11,7 +11,7 @@ Scrpits for the clock are in `src`. `src/main.py` contains all processins to dis
 > ssd1306 is supposed to be included in [MicroPython's main repository](https://github.com/micropython/micropython/tree/master), but I'm having hard time finding it.
 
 ## Parameters in `src/main.py`
-To run the script `main.py`, you need to set parameters bordered by `Parameters =======` in lines 10 to 33. The firs two parameters are I<sup>2</sup>C serial clock and data pins.These are GPIO numbers (labeled GP# in the [pinout](https://www.raspberrypi.com/documentation/microcontrollers/pico-series.html) 0 to 28), not pin numbers (1 to 40).
+To run the script `main.py`, you need to set parameters bordered by `Parameters =======` in lines 10 to 33. The firs two parameters are I<sup>2</sup>C serial clock and data pins.These are GPIO numbers (labeled GP# in the [pinout](https://www.raspberrypi.com/documentation/microcontrollers/pico-series.html), 0 to 28), not pin numbers (1 to 40).
 ```python:src/main.py [10-11]
 SCLpin = 3 # I2C clock pin assignment
 SDApin = 2 # I2C data pin assignment
