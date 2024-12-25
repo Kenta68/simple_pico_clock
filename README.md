@@ -24,15 +24,18 @@ buttonpin = 24 # push button (for setting time) pin assignment
 buttontype = False # True if the push button is pull down (normally 0), False if pull up (normally 1)
 ```
 
-If you are not using a button to set time, then you need to set time in line 17. It takes a tuple of `(year,month,day,weekday,hour,minutes,second,sub-second)` with weekday being 0 for Moday, 1 for Tuesday etc.
-```python:src/main.py [17]
-settime = (2024,8,2,4,16,22,0,0) # Enter the time to be set here as a tuple (year,month,day,weekday(Monday=0),hour,minutes,second,sub-second)
-```
+> [!IMPORTANT]
+>If you are not using a button to set time, then you need to set time in line 17. It takes a tuple of `(year,month,day,weekday,hour,minutes,second,sub-second)` with weekday being 0 for Moday, 1 for Tuesday etc.
+>```python:src/main.py [17]
+>settime = (2024,8,2,4,16,22,0,0) # Enter the time to be set here as a tuple (year,month,day,weekday(Monday=0),hour,minutes,second,sub-second)
+>```
 
-In line 19, setting 'show24h = False' shows time in 12:00 format with AM/PM
-In line 21, setting `mybirthday` to a tuple of `(month,date)` (e.g `(12,24)` for December 24) will show a little cake icon on that day to celebrate your birthday. Setting it to '(0,0)' disables this feature.
+In line 19, setting 'show24h = False' shows time in 12:00 format with AM/PM, and 'show24h = True' shows 13:00 to 23:59.
 
-Daylight saving time can be set in lines 23 to 28:
+>[!Tip]
+>In line 21, setting `mybirthday` to a tuple of `(month,date)` (e.g `(12,24)` for December 24) will show a little cake icon on the birthday. Setting it to '(0,0)' disables this feature.
+
+Daylight saving time / summer time adjustment can be set in lines 23 to 28:
 ```python:src/main.py [23-28]
 autodsave = True # True to enable auto-correcting for daylight saving time (auto-correction is not executed when the script starts)
 dsavestart = (3,6,2) # daylight saving time start date (month,weekday,weekday count from the beginning of month), for example, "second sunday in March" = (3,6,1)
@@ -40,11 +43,26 @@ dsaveend = (11,6,1) # daylight saving time end date (month,weekday,weekday count
 dsavetime = (2,0) # (hours,minutes), the starting and ending time of the daylight saving time
 dsavehourshift = 1 # [hour], how many hours to shift by the daylight saving time
 ```
+'dsavestart' and `dsaveend` are tuples of month and week. For example, if the daylight saving time starts on the second sunday of March, then `dsavestart = (3,6,1)` where `3` for March, `6` for Sunday (`0` for Monday, etc.), and `1` for "second" Sunday (0 indexed, `0` for the "first" week of the month). `dsavetime` is the time that the daylight saving time starts/ends (e.g. `(2,0)` for 2:00 AM). `dsavehourshift` si the number of hours shift by daylight saving time (usually 1). Setting `autodsave = False` disables the daylight saving time auto-correction.
+
+In line 33, `contrast = 200` (between 0 and 255) sets OLED display contrast.
 
 
+# How to Set Time using a Push Button
+To set time using a push bottn configured at `buttonpin`, first press and hold the button for 1 sec. This will display the following descriptions:
+```
+<1s press-> inc.
+>2s press-> next
+Press to start..
+```
+This means pressing the button shortly (< 1 sec) increments whatever entry you are setting by 1, and pressing and holding the button for more than 2 sec confirms the entry and goes to the next one. From this description, pressing the button brings the day setting. 
 
 # Description of Code
-SCLpin and SDApin are used to initialize the I<sup>2</sup>C instance, which is used to initialize ```SSD1306_I2C()``` instance
-```python:src/main.py[124]
-i2c = I2C(1,scl=Pin(SCLpin),sda=Pin(SDApin),freq=200000)
-```
+The code uses RP2040's [internal Real Time Clock (RTC)](https://docs.micropython.org/en/latest/library/machine.RTC.html), accessed by `machine.RTC()`. It is not that accurate, so if you want a really accurate clock, you might want an externall RTC.
+
+SCLpin and SDApin are used to initialize the I<sup>2</sup>C instance `I2C(1,scl=Pin(SCLpin),sda=Pin(SDApin),freq=200000)`, which is used to initialize `SSD1306_I2C()` instance. 
+
+Digits are stored in `digists.py` as hex arrays. These arrays can be formed by flatteningn an binary pixel image in C-style (row-major) order and converting into hex using big endian.
+
+
+
