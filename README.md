@@ -63,7 +63,7 @@ This means pressing the button shortly (< 1 sec) increments whatever entry you a
 
 Long pressing the button (> 1 sec) at the description display enters the secondary setting, including 24h/12h display, birthday setting, and enabling/disabling daylight saving/summer time auto-correct.
 
-# Making Custom Digits
+# How to Makie Custom Digits
 You an make custom digits for hours and minutes to be displayed on the OLED. To do this, download the `digits` folder with the file `digits/digit_converter.py` and the folder `digits/rawdigits`. `digits/rawdigits` contains 32x24 .png grayscale images of digits, which `digits/digit_converter.py` converts to hexadecimal arrays to be displayed by `src/main.py`. Edit these grayscale images in `digits/rawdigits` using a drawing app of your choice (e.g. Microsoft Paint). Once you are happy with digits you drew, change the working directory to the local `digits` directory and run `digits/digit_converter.py`. This will create a file `rawdigits/digits.py`, which stores hexadecimal arrays to be uploaded to your Pico. There are some example digits in `other_digits` that you can play with.
 
 >[!Important]
