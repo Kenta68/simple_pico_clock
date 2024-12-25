@@ -12,5 +12,6 @@ Scrpits for the clock are in `src`. `src/main.py` contains all processins to dis
 
 ## Parameters in `src/main.py`
 ```python:src/main.py [10-11]
-
+SCLpin = 3 # I2C clock pin assignment
+SDApin = 2 # I2C data pin assignment
 ```
