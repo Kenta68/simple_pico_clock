@@ -4,7 +4,7 @@ A simple Raspberry Pi Pico project of a digital clock using a 128x32 OLED displa
 
 # How to Make the Clock
 ![Alt text](images/circuit_diagram3.png)
-Wire a 128x28 I<sup>2</sup>C OLED clock and a push button (optional) to a Pico as shown above. For more details, see [my instructable](https://www.instructables.com/Simple-Pico-Clock/).
+Wire a 128x32 I<sup>2</sup>C OLED clock and a push button (optional) to a Pico as shown above. For more details, see [my instructable](https://www.instructables.com/Simple-Pico-Clock/).
 
 # Usage
 To use the clock, you need ot copy three scripts in `src` to your Pico. `src/main.py` contains all processins to display time, `src/digits.py` contains hexadecimal digit arrays to be displayed, and `src/ssd1306.py` is the ssd1306 driver from [stlehmann's micropython-ssd1306 fork](https://github.com/stlehmann/micropython-ssd1306/tree/master). 
