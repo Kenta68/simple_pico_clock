@@ -6,12 +6,12 @@ from machine import Pin,I2C,RTC
 from ssd1306 import SSD1306_I2C
 from digits import *
 
-# Parameters (check these before executing) ===========================================================================================================
-SCLpin = 3 # I2C clock pin assignment (GP#, 0 to 28)
-SDApin = 2 # I2C data pin assignment (GP#, 0 to 28)
+# Parameters (check these before executing) ============================
+SCLpin = 3 # I2C clock pin assignment
+SDApin = 2 # I2C data pin assignment
 
 timesetbutton = True # True if the pico board has a push button for setting time, otherwise false (if false, set time by editing the settime variable below)
-buttonpin = 18 # push button (for setting time) pin assignment (GP#, 0 to 28)
+buttonpin = 18 # push button (for setting time) pin assignment
 buttontype = False # True if the push button is pull down (normally 0), False if pull up (normally 1)
 
 settime = (2024,8,2,4,16,22,0,0) # Enter the time to be set here as a tuple (year,month,day,weekday(Monday=0),hour,minutes,second,sub-second)
@@ -31,7 +31,7 @@ WIDTH  = 128 # OLED pixel definition (WxH)
 HEIGHT = 32
 
 contrast = 200 # display contrast (0 to 255)
-# Parameters (end) ========================================================================================================================================
+# Parameters (end) ====================================================
 
 weekdays = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
 
@@ -206,7 +206,7 @@ while True:
             while True:
                 presstime = buttonevent(button)
                 if presstime > 0.001 and presstime < 1: # short button press -> increment day by 1
-                    newdatetime[2] = (newdatetime[2]+1)%32
+                    newdatetime[2] = (newdatetime[2])%31+1
                     display.fill(0) # erace the display
                     display.text("Date: "+str(newdatetime[2]),0,0) # display day
                     display.text("1 s press-> dec.",0,12)
@@ -324,3 +324,4 @@ while True:
 
 
             rtc.datetime((newdatetime[0],newdatetime[1],newdatetime[2],newdatetime[3],newdatetime[4],newdatetime[5],0,0)) # set new time
+            datetime = (0,0,0,0,0,0) # (year,month,day,weekday(Monday=0),hour,minutes) reset datetime to show new time on display
