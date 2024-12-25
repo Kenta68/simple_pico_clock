@@ -66,7 +66,7 @@ The code uses RP2040's [internal Real Time Clock (RTC)](https://docs.micropython
 
 SCLpin and SDApin are used to initialize the I<sup>2</sup>C instance `I2C(1,scl=Pin(SCLpin),sda=Pin(SDApin),freq=200000)`, which is used to initialize `SSD1306_I2C()` instance. 
 
-Digits are stored in `digists.py` as hex arrays. These arrays can be formed by flatteningn an binary pixel image in C-style (row-major) order and converting into hex with big endian order.
+Digits are stored in `digists.py` as hex arrays. These arrays can be formed by flattening a binary pixel image in C-style (row-major) order and converting into hex with big endian order.
 
 
 
