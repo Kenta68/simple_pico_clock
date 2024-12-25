@@ -187,7 +187,6 @@ while True:
     if timesetbutton: # if time setting button exists
         if (buttontype and button.value()) or not (buttontype or button.value()): # button pressed
             newdatetime = [datetime[0],datetime[1],datetime[2],datetime[3],datetime[4],datetime[5]] # [year,month,day,weekday(Monday=0),hour,minutes], var for keeping new time
-
             # Show hot to set time
             display.fill(0)
             display.text("<1s press-> inc.",0,0)
@@ -197,57 +196,6 @@ while True:
             while True:
                 presstime = buttonevent(button)
                 if presstime > 0.001:
-                    break
-
-            # Set hour
-            display.fill(0) # erace the display
-            h2 = newdatetime[4]%10 # the second digit of hour
-            h1 = (newdatetime[4]-h2)//10 # the first digit of hour
-            display.blit(givedbuff(h1),WIDTH-dsize[1]*4-csize[1],0) # display hour digits
-            display.blit(givedbuff(h2),WIDTH-dsize[1]*3-csize[1],0)
-            display.blit(colon,WIDTH-dsize[1]*2-csize[1],0)
-            display.show()
-            while True:
-                presstime = buttonevent(button)
-                if presstime > 0.001 and presstime < 1: # short button press -> increment hour
-                    newdatetime[4] = (newdatetime[4]+1)%24 #  increment hour
-                    display.fill(0) # erace the display
-                    h2 = newdatetime[4]%10 # the second digit of hour
-                    h1 = (newdatetime[4]-h2)//10 # the first digit of hour
-                    display.blit(givedbuff(h1),WIDTH-dsize[1]*4-csize[1],0) # display hour digits
-                    display.blit(givedbuff(h2),WIDTH-dsize[1]*3-csize[1],0)
-                    display.blit(colon,WIDTH-dsize[1]*2-csize[1],0)
-                    display.show()
-                elif presstime > 2: # long button press -> exit loop and go to minute setting
-                    break
-
-            # set minutes
-            display.fill(0) # erace the display
-            display.blit(colon,WIDTH-dsize[1]*2-csize[1],0)
-            display.blit(givedbuff(m1),WIDTH-dsize[1]*2,0)
-            display.blit(givedbuff(m2),WIDTH-dsize[1],0)
-            display.show()
-            while True:
-                presstime = buttonevent(button)
-                if presstime > 0.001 and presstime < 1: # short button press -> increment minute by 1
-                    newdatetime[5] = (newdatetime[5]+1)%60 #  increment minute
-                    display.fill(0) # erace the display
-                    m2 = newdatetime[5]%10 # the second digit of minutes
-                    m1 = (newdatetime[5]-m2)//10 # the first digit of minutes
-                    display.blit(givedbuff(m1),WIDTH-dsize[1]*2,0)
-                    display.blit(givedbuff(m2),WIDTH-dsize[1],0)
-                    display.blit(colon,WIDTH-dsize[1]*2-csize[1],0)
-                    display.show()
-                if presstime >= 1 and presstime < 2: # intermediate button press -> increment minute by 10
-                    newdatetime[5] = (newdatetime[5]+10)%60 #  increment minute
-                    display.fill(0) # erace the display
-                    m2 = newdatetime[5]%10 # the second digit of minutes
-                    m1 = (newdatetime[5]-m2)//10 # the first digit of minutes
-                    display.blit(givedbuff(m1),WIDTH-dsize[1]*2,0)
-                    display.blit(givedbuff(m2),WIDTH-dsize[1],0)
-                    display.blit(colon,WIDTH-dsize[1]*2-csize[1],0)
-                    display.show()
-                elif presstime > 2: # long button press -> exit loop and go to date setting
                     break
 
             # set day
@@ -320,7 +268,59 @@ while True:
                     display.fill(0) # erace weekday
                     display.text("Weekday: "+weekdays[newdatetime[3]],0,12) # display month
                     display.show()
-                elif presstime > 1: # long button press -> exit setting
+                elif presstime > 1: # long button press -> go to hour setting
                     break
+
+           # Set hour
+            display.fill(0) # erace the display
+            h2 = newdatetime[4]%10 # the second digit of hour
+            h1 = (newdatetime[4]-h2)//10 # the first digit of hour
+            display.blit(givedbuff(h1),WIDTH-dsize[1]*4-csize[1],0) # display hour digits
+            display.blit(givedbuff(h2),WIDTH-dsize[1]*3-csize[1],0)
+            display.blit(colon,WIDTH-dsize[1]*2-csize[1],0)
+            display.show()
+            while True:
+                presstime = buttonevent(button)
+                if presstime > 0.001 and presstime < 1: # short button press -> increment hour
+                    newdatetime[4] = (newdatetime[4]+1)%24 #  increment hour
+                    display.fill(0) # erace the display
+                    h2 = newdatetime[4]%10 # the second digit of hour
+                    h1 = (newdatetime[4]-h2)//10 # the first digit of hour
+                    display.blit(givedbuff(h1),WIDTH-dsize[1]*4-csize[1],0) # display hour digits
+                    display.blit(givedbuff(h2),WIDTH-dsize[1]*3-csize[1],0)
+                    display.blit(colon,WIDTH-dsize[1]*2-csize[1],0)
+                    display.show()
+                elif presstime > 2: # long button press -> exit loop and go to minute setting
+                    break
+
+            # set minutes
+            display.fill(0) # erace the display
+            display.blit(colon,WIDTH-dsize[1]*2-csize[1],0)
+            display.blit(givedbuff(m1),WIDTH-dsize[1]*2,0)
+            display.blit(givedbuff(m2),WIDTH-dsize[1],0)
+            display.show()
+            while True:
+                presstime = buttonevent(button)
+                if presstime > 0.001 and presstime < 1: # short button press -> increment minute by 1
+                    newdatetime[5] = (newdatetime[5]+1)%60 #  increment minute
+                    display.fill(0) # erace the display
+                    m2 = newdatetime[5]%10 # the second digit of minutes
+                    m1 = (newdatetime[5]-m2)//10 # the first digit of minutes
+                    display.blit(givedbuff(m1),WIDTH-dsize[1]*2,0)
+                    display.blit(givedbuff(m2),WIDTH-dsize[1],0)
+                    display.blit(colon,WIDTH-dsize[1]*2-csize[1],0)
+                    display.show()
+                if presstime >= 1 and presstime < 2: # intermediate button press -> increment minute by 10
+                    newdatetime[5] = (newdatetime[5]+10)%60 #  increment minute
+                    display.fill(0) # erace the display
+                    m2 = newdatetime[5]%10 # the second digit of minutes
+                    m1 = (newdatetime[5]-m2)//10 # the first digit of minutes
+                    display.blit(givedbuff(m1),WIDTH-dsize[1]*2,0)
+                    display.blit(givedbuff(m2),WIDTH-dsize[1],0)
+                    display.blit(colon,WIDTH-dsize[1]*2-csize[1],0)
+                    display.show()
+                elif presstime > 2: # long button press -> exit setting
+                    break
+
 
             rtc.datetime((newdatetime[0],newdatetime[1],newdatetime[2],newdatetime[3],newdatetime[4],newdatetime[5],0,0)) # set new time
