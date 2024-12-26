@@ -64,12 +64,14 @@ This means pressing the button shortly (< 1 sec) increments whatever entry you a
 Long pressing the button (> 1 sec) at the description display enters the secondary setting, including 24h/12h display, birthday setting, and enabling/disabling daylight saving/summer time auto-correct.
 
 # How to Makie Custom Digits
-You an make custom digits for hours and minutes to be displayed on the OLED. To do this, download the `/digits` folder with the file `digits/digit_converter.py` and the folder `digits/rawdigits`. `digits/rawdigits` contains 32x24 .png grayscale images of digits, which `digits/digit_converter.py` converts to hexadecimal arrays to be displayed by `src/main.py`. Edit these grayscale images in `digits/rawdigits` using a drawing app of your choice (e.g. Microsoft Paint). Once you are happy with digits you drew, change the working directory to the local `digits` directory and run `digits/digit_converter.py`. This will create a file `rawdigits/digits.py`, which stores hexadecimal arrays to be uploaded to your Pico. Some example `digits.py` files for fonts shown below are in `/other_digits`.
-
-![Alt text](images/digit_fonts.png)
+You an make custom digits for hours and minutes to be displayed on the OLED. To do this, download the `/digits` folder with the file `digits/digit_converter.py` and the folder `digits/rawdigits`. `digits/rawdigits` contains 32x24 .png grayscale images of digits, which `digits/digit_converter.py` converts to hexadecimal arrays to be displayed by `src/main.py`. Edit these grayscale images in `digits/rawdigits` using a drawing app of your choice (e.g. Microsoft Paint). Once you are happy with digits you drew, change the working directory to the local `digits` directory and run `digits/digit_converter.py`. This will create a file `rawdigits/digits.py`, which stores hexadecimal arrays to be uploaded to your Pico. 
 
 >[!Important]
 >Running `digits/digit_converter.py` requires a Python 3 environment with NumPy `numpy` and OpenCV-Python `cv2`. You can get these libraries using `pip`.
+>
+Some example `digits.py` files for fonts shown below are in `/other_digits`.
+![Alt text](images/digit_fonts.png)
+
 
 # Description of `src/main.py` Processes
 The code uses RP2040's [internal Real Time Clock (RTC)](https://docs.micropython.org/en/latest/library/machine.RTC.html), accessed by `machine.RTC()`. It is not that accurate, so if you want a really accurate clock, you might want an external RTC.
