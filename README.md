@@ -69,7 +69,7 @@ You an make custom digits for hours and minutes to be displayed on the OLED. To 
 >[!Important]
 >Running `digits/digit_converter.py` requires a Python 3 environment with NumPy `numpy` and OpenCV-Python `cv2`. You can get these libraries using `pip`.
 >
-Some example `digits.py` files are in `/other_digits`. These fonts are drawn using Microsoft Paint.
+Some example `digits.py` files for fonts shown below are in `/other_digits`. These fonts are drawn using Microsoft Paint.
 ![Alt text](images/digit_fonts.png)
 
 
