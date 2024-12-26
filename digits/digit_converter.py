@@ -41,6 +41,8 @@ if __name__ == "__main__":
         file.close()
         for imgfilename in imgfilenames:
             digitarray = cv2.imread(os.path.join(inputimgdirname,imgfilename),0)
+            digitarray = cv2.normalize(digitarray,None,alpha=0,beta=255,norm_type=cv2.NORM_MINMAX)
+
             imgsize = digitarray.shape[:2]
             if imgsize[0]%8 != 0 or imgsize[1]%8 != 0:
                 raise ValueError("imgsize[0] or imgsize[1] of "+str(imgfilename)+" is not divisible by 8. Check the input image size again.")
