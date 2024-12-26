@@ -11,14 +11,14 @@ SCLpin = 3 # I2C clock pin assignment
 SDApin = 2 # I2C data pin assignment
 
 timesetbutton = True # True if the pico board has a push button for setting time, otherwise false (if false, set time by editing the settime variable below)
-buttonpin = 24 # push button (for setting time) pin assignment
+buttonpin = 18 # push button (for setting time) pin assignment
 buttontype = False # True if the push button is pull down (normally 0), False if pull up (normally 1)
 
 settime = (2024,8,2,4,16,22,0,0) # Enter the time to be set here as a tuple (year,month,day,weekday(Monday=0),hour,minutes,second,sub-second)
 
 show24h = False # False to diaplay time only in 0:00 to 12:59 with AM/PM
 
-mybirthday = (6,22) # (month,date) of your birthday so that the clock can celebrate it
+mybirthday = (7,23) # (month,date) of your birthday so that the clock can celebrate it
 
 autodsave = True # True to enable auto-correcting for daylight saving time (auto-correction is not executed when the script starts)
 dsavestart = (3,6,2) # daylight saving time start date (month,weekday,weekday count from the beginning of month), for example, "second sunday in March" = (3,6,1)
