@@ -74,7 +74,7 @@ Some example `digits.py` files for fonts shown below are in `/other_digits`. The
 ![Alt text](images/digit_fonts.png)
 
 
-# What `src/main.py` does 
+# What `src/main.py` Does
 The script uses RP2040's [internal Real Time Clock (RTC)](https://docs.micropython.org/en/latest/library/machine.RTC.html), accessed by `machine.RTC()` (line 128). It is not that accurate, so if you want a really accurate clock, you might want an external RTC module. The internal RTC is initialized by `machine.RTC.datetime(settime)` (line 129) where `(settime)` is a tuple of time (see "Important" section in [Parameters in `src/main.py`](#parameters-in-srcmainpy)).
 
 SCLpin and SDApin are used to initialize the I<sup>2</sup>C instance `i2c = I2C(1,scl=Pin(SCLpin),sda=Pin(SDApin),freq=200000)` (line 124), which is used to initialize the ` SSD1306_I2C()` instance (line 125) that communicate with the OLED display over I<sup>2</sup>C to display time. 
