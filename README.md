@@ -74,12 +74,16 @@ Some example `digits.py` files for fonts shown below are in `/other_digits`. The
 ![Alt text](images/digit_fonts.png)
 
 
-# Description of `src/main.py` Processes
-The code uses RP2040's [internal Real Time Clock (RTC)](https://docs.micropython.org/en/latest/library/machine.RTC.html), accessed by `machine.RTC()`. It is not that accurate, so if you want a really accurate clock, you might want an external RTC.
+# What `src/main.py` does 
+The script uses RP2040's [internal Real Time Clock (RTC)](https://docs.micropython.org/en/latest/library/machine.RTC.html), accessed by `machine.RTC()` (line 128). It is not that accurate, so if you want a really accurate clock, you might want an external RTC module. The internal RTC is initialized by `machine.RTC.datetime(settime)` (line 129) where `(settime)` is a tuple of time (see "Important" section in [Parameters in `src/main.py`](#parameters-in-src/main.py)).
 
-SCLpin and SDApin are used to initialize the I<sup>2</sup>C instance `I2C(1,scl=Pin(SCLpin),sda=Pin(SDApin),freq=200000)`, which is used to initialize `SSD1306_I2C()` instance. 
+SCLpin and SDApin are used to initialize the I<sup>2</sup>C instance `i2c = I2C(1,scl=Pin(SCLpin),sda=Pin(SDApin),freq=200000)` (line 124), which is used to initialize the ` SSD1306_I2C()` instance (line 125) that communicate with the OLED display over I<sup>2</sup>C to display time. 
 
-Digits are stored in `digists.py` as hexadecimal arrays. These arrays can be formed by flattening a binary pixel image in C-style (row-major) order and converting into a hexadecimal array with big-endian order.  `digits/digit_convertor.py` does this conversion.
+Current time is acquired from the internal RTC using `machine.RTC.datetime()` (line 133). Lines 137 to 146 implement daylight saving/summer time quto-correct, and lines 149 to 181 displays the current time on the OLED module. The Pico then sleeps for 1 sec (line 183), and goes back to acquiring time in line 133.
+
+Custom fonts for digits are stored in `digists.py` as hexadecimal arrays. These arrays can be formed by flattening a 32x24 binary pixel image of a digit in C-style (row-major) order and converting into a hexadecimal array with big-endian order (which `digits/digit_convertor.py` does). Lines 38 to 65 (in `main.py`) converts custom digit fonts defined in `digits.py` as hexadecimal arrays to `framebuf.FrameBuffer()` that can be sent to the OLED module to display custom digits using the `SSD1306_I2C.blit()` method. The function `givedbuff(num)` (lines 67 to 88) is just a convenience function that returns `framebuf.FrameBuffer()` array corresponding to `num`.
+
+The function `buttonevent()` (lines 90 to 116) handles a button press event and returns the duration of the button press event. This function is used to set new time based on user input in lines 186 to 393.
 
 
 
